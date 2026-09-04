@@ -63,7 +63,9 @@ Dallas, TX 75201</textarea></div></div></div>
     function removeLogo(){logo.value='';pLogo.removeAttribute('src');pLogo.style.display='none';if(!loadingDraft)saveDraft()}
     logo.addEventListener('change',()=>{const file=logo.files[0];if(!file)return removeLogo();if(file.size>2*1024*1024){alert('Please choose a logo smaller than 2 MB.');return removeLogo()}const reader=new FileReader();reader.onload=e=>{pLogo.src=e.target.result;pLogo.style.display='block';saveDraft()};reader.readAsDataURL(file)});
     function resetInvoice(){const estimate=documentType.value==='estimate';if(!confirm(`Start a new ${estimate?'estimate':'invoice'}?`))return;loadingDraft=true;localStorage.removeItem(DRAFT_KEY);document.querySelectorAll('input,textarea').forEach(x=>x.value='');removeLogo();issue.value=today.toISOString().slice(0,10);due.value=later.toISOString().slice(0,10);number.value=estimate?'EST-1001':'INV-1001';tax.value=0;discount.value=0;items.innerHTML='';addItem();loadingDraft=false;update()}
-    ids.forEach(id=>document.getElementById(id).addEventListener('input',update));addItem();addItem('Materials',1,150);loadDraft();
+    ids.forEach(id=>document.getElementById(id).addEventListener('input',update));
+    documentType.addEventListener('change',()=>{const estimate=documentType.value==='estimate';if(estimate&&/^INV-/i.test(number.value))number.value=number.value.replace(/^INV-/i,'EST-');if(!estimate&&/^EST-/i.test(number.value))number.value=number.value.replace(/^EST-/i,'INV-');const invoiceNote='Thank you for your business. Payment is due by the date shown above.';const estimateNote='Thank you for your business. This estimate is valid until the date shown above.';if(estimate&&notes.value===invoiceNote)notes.value=estimateNote;if(!estimate&&notes.value===estimateNote)notes.value=invoiceNote;update()});
+    addItem();addItem('Materials',1,150);loadDraft();
   </script>
 </body>
 </html>
