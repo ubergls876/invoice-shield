@@ -3,10 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InvoiceShield</title>
+  <meta name="description" content="Create professional invoices for free with InvoiceShield.">
+  <title>Free Invoice Generator | InvoiceShield</title>
+  <style>
+    :root{--navy:#0b1739;--blue:#2563eb;--green:#10b981;--bg:#f3f6fb;--line:#dbe3ef;--text:#172033;--muted:#64748b;--white:#fff}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--text)}
+    button,input,textarea,select{font:inherit}button{cursor:pointer}.topbar{background:var(--navy);color:#fff;padding:16px 5%;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{font-size:1.3rem;font-weight:800}.brand span{color:#5eead4}.secure{font-size:.85rem;color:#cbd5e1}.wrap{max-width:1180px;margin:28px auto;padding:0 18px}
+    .intro{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:20px}.intro h1{margin:0 0 6px;font-size:clamp(1.7rem,4vw,2.5rem)}.intro p{margin:0;color:var(--muted)}
+    .actions{display:flex;gap:10px}.btn{border:0;border-radius:10px;padding:12px 17px;font-weight:700}.btn-primary{background:var(--blue);color:#fff}.btn-light{background:#fff;color:var(--navy);border:1px solid var(--line)}
+    .grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);gap:22px}.panel,.paper{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 30px rgba(15,23,42,.06)}
+    .panel{padding:22px}.section{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:20px}.section:last-child{border:0;margin:0;padding:0}.section h2{font-size:1rem;margin:0 0 14px;color:var(--navy)}
+    .fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1}label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:6px}
+    input,textarea,select{width:100%;border:1px solid #cbd5e1;border-radius:9px;padding:11px 12px;background:#fff;color:var(--text);outline:none}input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px #dbeafe}textarea{min-height:78px;resize:vertical}
+    .item-head,.item-row{display:grid;grid-template-columns:1fr 82px 100px 38px;gap:8px;align-items:center}.item-head{font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:7px}.item-row{margin-bottom:9px}.remove{height:40px;border:0;border-radius:8px;background:#fee2e2;color:#b91c1c;font-size:1.1rem}
+    .add{border:1px dashed #93c5fd;background:#eff6ff;color:#1d4ed8;border-radius:9px;padding:10px 14px;font-weight:700}.paper{padding:34px;min-height:760px;position:sticky;top:18px}.invoice-top{display:flex;justify-content:space-between;gap:20px;border-bottom:3px solid var(--navy);padding-bottom:20px}.invoice-top h2{font-size:2rem;margin:0;color:var(--navy)}
+    .badge{display:inline-block;margin-top:8px;background:#d1fae5;color:#047857;padding:5px 9px;border-radius:999px;font-size:.75rem;font-weight:800}.preview-info{display:grid;grid-template-columns:1fr 1fr;gap:25px;margin:25px 0}.preview-info h3{font-size:.72rem;letter-spacing:.08em;color:var(--muted);margin:0 0 7px}.preview-info p{margin:3px 0;font-size:.9rem;white-space:pre-line}
+    table{width:100%;border-collapse:collapse;font-size:.87rem}th{text-align:left;background:#eef2ff;color:var(--navy);padding:10px}td{padding:11px 10px;border-bottom:1px solid var(--line)}th:nth-child(n+2),td:nth-child(n+2){text-align:right}.totals{width:min(290px,100%);margin:20px 0 0 auto}.total-line{display:flex;justify-content:space-between;padding:7px 0;color:#475569}.grand{border-top:2px solid var(--navy);font-size:1.18rem;font-weight:800;color:var(--navy);margin-top:5px;padding-top:12px}.notes{margin-top:38px;border-top:1px solid var(--line);padding-top:18px;color:#475569;font-size:.85rem;white-space:pre-line}.footer{text-align:center;color:var(--muted);font-size:.8rem;padding:26px}
+    @media(max-width:850px){.grid{grid-template-columns:1fr}.paper{position:static}.intro{align-items:flex-start;flex-direction:column}.actions{width:100%}.actions .btn{flex:1}}
+    @media(max-width:520px){.fields{grid-template-columns:1fr}.full{grid-column:auto}.item-head{display:none}.item-row{grid-template-columns:1fr 70px 90px 38px}.paper{padding:20px}.preview-info{grid-template-columns:1fr}.invoice-top h2{font-size:1.6rem}}
+    @media print{body{background:#fff}.topbar,.intro,.panel,.footer{display:none!important}.wrap{margin:0;padding:0;max-width:none}.grid{display:block}.paper{border:0;box-shadow:none;border-radius:0;min-height:auto;padding:20px;position:static}}
+  </style>
 </head>
 <body>
-  <h1>InvoiceShield</h1>
-  <p>Free invoicing and payment tools for US contractors.</p>
+  <header class="topbar"><div class="brand">Invoice<span>Shield</span></div><div class="secure">Free • Private • No signup required</div></header>
+  <main class="wrap">
+    <div class="intro"><div><h1>Free Invoice Generator</h1><p>Create a polished invoice, then print or save it as PDF.</p></div><div class="actions"><button class="btn btn-light" onclick="resetInvoice()">New Invoice</button><button class="btn btn-primary" onclick="window.print()">Download PDF</button></div></div>
+    <div class="grid">
+      <section class="panel">
+        <div class="section"><h2>Your business</h2><div class="fields"><div><label>Business name</label><input id="business" value="Your Business LLC"></div><div><label>Email</label><input id="email" value="hello@example.com"></div><div class="full"><label>Business address</label><textarea id="fromAddress">123 Main Street\nAustin, TX 78701</textarea></div></div></div>
+        <div class="section"><h2>Bill to</h2><div class="fields"><div><label>Client name</label><input id="client" value="Client Name"></div><div><label>Client email</label><input id="clientEmail" value="client@example.com"></div><div class="full"><label>Client address</label><textarea id="clientAddress">456 Market Street\nDallas, TX 75201</textarea></div></div></div>
+        <div class="section"><h2>Invoice details</h2><div class="fields"><div><label>Invoice number</label><input id="number" value="INV-1001"></div><div><label>Currency</label><select id="currency"><option value="$">USD ($)</option><option value="€">EUR (€)</option><option value="£">GBP (£)</option><option value="C$">CAD (C$)</option></select></div><div><label>Issue date</label><input id="issue" type="date"></div><div><label>Due date</label><input id="due" type="date"></div></div></div>
+        <div class="section"><h2>Items</h2><div class="item-head"><span>Description</span><span>Qty</span><span>Rate</span><span></span></div><div id="items"></div><button class="add" onclick="addItem()">+ Add line item</button></div>
+        <div class="section"><h2>Adjustments</h2><div class="fields"><div><label>Tax (%)</label><input id="tax" type="number" value="0" min="0" step="0.01"></div><div><label>Discount (%)</label><input id="discount" type="number" value="0" min="0" step="0.01"></div></div></div>
+        <div class="section"><h2>Payment notes</h2><textarea id="notes">Thank you for your business. Payment is due by the date shown above.</textarea></div>
+      </section>
+      <aside class="paper" id="invoice">
+        <div class="invoice-top"><div><h2>INVOICE</h2><span class="badge">PAYMENT DUE</span></div><div style="text-align:right"><strong id="pBusiness">Your Business LLC</strong><p id="pFrom" style="white-space:pre-line;margin:7px 0;color:#64748b;font-size:.82rem"></p></div></div>
+        <div class="preview-info"><div><h3>BILL TO</h3><strong id="pClient"></strong><p id="pClientInfo"></p></div><div><h3>INVOICE DETAILS</h3><p><strong>Number:</strong> <span id="pNumber"></span><br><strong>Issued:</strong> <span id="pIssue"></span><br><strong>Due:</strong> <span id="pDue"></span></p></div></div>
+        <table><thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead><tbody id="pItems"></tbody></table>
+        <div class="totals"><div class="total-line"><span>Subtotal</span><span id="pSubtotal"></span></div><div class="total-line"><span>Discount</span><span id="pDiscount"></span></div><div class="total-line"><span>Tax</span><span id="pTax"></span></div><div class="total-line grand"><span>Total</span><span id="pTotal"></span></div></div>
+        <div class="notes"><strong>Notes</strong><br><span id="pNotes"></span></div>
+      </aside>
+    </div>
+  </main>
+  <footer class="footer">InvoiceShield — Free invoicing tools for independent professionals and contractors.</footer>
+  <script>
+    const ids=['business','email','fromAddress','client','clientEmail','clientAddress','number','currency','issue','due','tax','discount','notes'];
+    const today=new Date(), later=new Date(Date.now()+14*86400000);issue.value=today.toISOString().slice(0,10);due.value=later.toISOString().slice(0,10);
+    function money(n){return currency.value+Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
+    function addItem(desc='Professional services',qty=1,rate=500){const row=document.createElement('div');row.className='item-row';row.innerHTML=`<input class="desc" value="${desc}"><input class="qty" type="number" min="0" step="1" value="${qty}"><input class="rate" type="number" min="0" step="0.01" value="${rate}"><button class="remove" aria-label="Remove item" onclick="this.parentElement.remove();update()">×</button>`;row.querySelectorAll('input').forEach(x=>x.addEventListener('input',update));items.appendChild(row);update()}
+    function dateText(v){if(!v)return '—';return new Date(v+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}
+    function update(){pBusiness.textContent=business.value||'Your Business';pFrom.textContent=[email.value,fromAddress.value].filter(Boolean).join('\n');pClient.textContent=client.value||'Client';pClientInfo.textContent=[clientEmail.value,clientAddress.value].filter(Boolean).join('\n');pNumber.textContent=number.value||'—';pIssue.textContent=dateText(issue.value);pDue.textContent=dateText(due.value);pNotes.textContent=notes.value;pItems.innerHTML='';let subtotal=0;document.querySelectorAll('.item-row').forEach(r=>{const d=r.querySelector('.desc').value||'Item',q=+r.querySelector('.qty').value||0,rate=+r.querySelector('.rate').value||0,amount=q*rate;subtotal+=amount;const tr=document.createElement('tr');tr.innerHTML=`<td>${d.replace(/[<>&]/g,'')}</td><td>${q}</td><td>${money(rate)}</td><td>${money(amount)}</td>`;pItems.appendChild(tr)});const disc=subtotal*((+discount.value||0)/100),taxable=subtotal-disc,taxAmount=taxable*((+tax.value||0)/100);pSubtotal.textContent=money(subtotal);pDiscount.textContent='− '+money(disc);pTax.textContent=money(taxAmount);pTotal.textContent=money(taxable+taxAmount)}
+    function resetInvoice(){if(!confirm('Start a new invoice?'))return;document.querySelectorAll('input,textarea').forEach(x=>x.value='');issue.value=today.toISOString().slice(0,10);due.value=later.toISOString().slice(0,10);number.value='INV-1001';tax.value=0;discount.value=0;items.innerHTML='';addItem()}
+    ids.forEach(id=>document.getElementById(id).addEventListener('input',update));addItem();addItem('Materials',1,150);update();
+  </script>
 </body>
 </html>
