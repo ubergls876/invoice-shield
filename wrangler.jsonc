@@ -1,0 +1,7 @@
+{
+  "name": "invoice-shield",
+  "compatibility_date": "2026-09-04",
+  "assets": {
+    "directory": "."
+  }
+}
