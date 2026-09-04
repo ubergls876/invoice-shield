@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://invoice-shield.ubergls876.workers.dev/sitemap.xml
